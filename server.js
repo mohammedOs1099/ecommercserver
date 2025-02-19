@@ -2,10 +2,13 @@ const jsonServer = require("json-server");
 const auth = require("json-server-auth");
 
 const server = jsonServer.create();
-const router = jsonServer.router("db.json");
+const router = jsonServer.router("db.json"); // ✅ ربط قاعدة البيانات
+const middlewares = jsonServer.defaults();
 
-server.use(jsonServer.defaults());
-server.use(auth);
+server.db = router.db; // ✅ ربط قاعدة البيانات بالسيرفر
+
+server.use(middlewares);
+server.use(auth); // ✅ تفعيل المصادقة
 server.use(router);
 
 server.listen(5000, () => {
